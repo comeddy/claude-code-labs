@@ -10,6 +10,7 @@ Materials for the **Claude Code Deep Dive Workshop** (2nd run): self-paced, Kore
 
 - `labs/` — the deliverables: `index.html` (portal), `ClaudeCode_Ch1..Ch6_HandsOnLab.html` (chapter labs), `ClaudeCode_Capstone{1-4,A-D}_HandsOnLab.html` (capstone labs), `ClaudeCode_Capstone_Setup.html`, `ClaudeCode_Preflight_Check.html`, `ClaudeCode_Reference{1-3}_*.html`, `eDM.html` (session intro).
 - `.claude/skills/HoL-Style-01/` — the **HoL-Style-01 design system skill** (auto-discovered as a project skill): `SKILL.md` plus the build assets `assets/lab_head.html`, `assets/lab_tail.html`, `assets/helpers.py`, `assets/qa.py`.
+- `sources/<lab>/` — generator (`gen.py`) + verified assets for labs built in this repo (currently `capstone5`). Editing a lab means editing its assets and re-running the generator, keeping doc and assets byte-identical; verify with `python3 .claude/skills/HoL-Style-01/assets/qa.py labs/<lab>.html sources/<lab>/assets`.
 - `.remember/` — Remember plugin session-history storage (git-ignored). Never store deliverables here; the copies of the skill zip/SKILL.md remaining there are stale duplicates of `.claude/skills/HoL-Style-01/`.
 
 ## Creating or editing a lab document
