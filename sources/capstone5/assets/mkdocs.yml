@@ -1,0 +1,19 @@
+site_name: Playbook Foundry
+theme:
+  name: material
+  language: ko
+  palette:
+    scheme: slate
+    primary: deep orange
+  features:
+    - navigation.sections
+    - content.code.copy
+nav:
+  - 홈: index.md
+  - 필러:
+      - 필러 1: p1.md
+      - 필러 2: p2.md
+      - 필러 3: p3.md
+      - 필러 4: p4.md
+      - 필러 5: p5.md
+  - Radar 대기열: radar.md

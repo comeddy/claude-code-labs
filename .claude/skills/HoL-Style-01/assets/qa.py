@@ -45,9 +45,13 @@ if assets:
 
 for width in (1280, 420):
     png = f'/tmp/_qa_{width}.png'
-    subprocess.run(['xvfb-run','-a','wkhtmltoimage','--width',str(width),'--quality','45',
-                    '--enable-local-file-access', sys.argv[1], png],
-                   capture_output=True)
+    try:
+        subprocess.run(['xvfb-run','-a','wkhtmltoimage','--width',str(width),'--quality','45',
+                        '--enable-local-file-access', sys.argv[1], png],
+                       capture_output=True)
+    except FileNotFoundError:
+        print(f"주의: 렌더러 없음(xvfb-run/wkhtmltoimage), {width}px 수납 검사 생략. 별도 브라우저 검사 필요")
+        continue
     try:
         from PIL import Image
         if Image.open(png).size[0] != width:
