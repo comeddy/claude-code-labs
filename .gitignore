@@ -1,2 +1,4 @@
 # Remember plugin session-history storage (also self-ignores via .remember/.gitignore)
 .remember/
+__pycache__/
+.playwright-mcp/
