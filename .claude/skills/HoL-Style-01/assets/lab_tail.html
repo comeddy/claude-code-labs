@@ -1,0 +1,73 @@
+<footer>
+  <div class="who">{{LAB_TITLE}}</div>
+  <div>기준: {{BASELINE}}</div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  document.querySelectorAll(".copy-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var pre = btn.closest(".code-wrap").querySelector("pre");
+      var text = pre.textContent.replace(/\n{3,}/g, "\n\n").trim();
+      function done() {
+        var old = btn.textContent;
+        btn.textContent = "복사됨 ✓";
+        btn.classList.add("copied");
+        setTimeout(function () { btn.textContent = old; btn.classList.remove("copied"); }, 1600);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done).catch(function () { fallback(); });
+      } else { fallback(); }
+      function fallback() {
+        var ta = document.createElement("textarea");
+        ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); done(); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+    });
+  });
+  var taskGroups = {{TASK_GROUPS}};
+  /* 챕터형 예: { t0:["t0"], t1:["t1a","t1b"], ... } 진행 라벨 "0/5"
+     캡스톤형 예: { m0:["m0a","m0b"], m1:["m1"], ... m5:["m5"] } 진행 라벨 "0/6" */
+  var state = {};
+  function refresh() {
+    var doneCount = 0;
+    Object.keys(taskGroups).forEach(function (task) {
+      var allDone = taskGroups[task].every(function (cp) { return state[cp]; });
+      if (allDone) doneCount++;
+      var seg = document.querySelector('.seg[data-task="' + task + '"]');
+      if (seg) seg.classList.toggle("done", allDone);
+      var nav = document.querySelector('.sidenav a[data-nav="' + task + '"]');
+      if (nav) nav.classList.toggle("done", allDone);
+    });
+    var pc = document.getElementById("progress-count");
+    if (pc) pc.textContent = doneCount + "/{{TASK_COUNT}}";
+  }
+  document.querySelectorAll('.cp-item input[type="checkbox"]').forEach(function (cb) {
+    cb.addEventListener("change", function () { state[cb.dataset.cp] = cb.checked; refresh(); });
+  });
+  document.querySelectorAll(".seg").forEach(function (seg) {
+    seg.addEventListener("click", function () {
+      var el = document.getElementById(seg.dataset.task);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+  var sections = document.querySelectorAll("section[id]");
+  var navLinks = document.querySelectorAll(".sidenav a[data-nav]");
+  var segs = document.querySelectorAll(".seg[data-task]");
+  if ("IntersectionObserver" in window) {
+    var current = null;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { if (entry.isIntersecting) current = entry.target.id; });
+      if (!current) return;
+      navLinks.forEach(function (a) { a.classList.toggle("active", a.dataset.nav === current); });
+      segs.forEach(function (s) { s.classList.toggle("active", s.dataset.task === current); });
+    }, { rootMargin: "-20% 0px -65% 0px" });
+    sections.forEach(function (s) { io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>

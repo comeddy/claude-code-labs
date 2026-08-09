@@ -1,0 +1,2 @@
+# Remember plugin session-history storage (also self-ignores via .remember/.gitignore)
+.remember/
