@@ -69,5 +69,29 @@
   }
 })();
 </script>
+<script>
+(function () {
+  "use strict";
+  var KEY = "hol-theme";
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "theme-toggle";
+  function apply(light) {
+    document.documentElement.classList.toggle("light", light);
+    btn.textContent = light ? "DARK" : "WHITE";
+    btn.setAttribute("aria-pressed", light ? "true" : "false");
+    btn.setAttribute("aria-label", light ? "다크 모드로 전환" : "화이트 모드로 전환");
+  }
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) { saved = null; }
+  apply(saved === "light");
+  btn.addEventListener("click", function () {
+    var next = !document.documentElement.classList.contains("light");
+    apply(next);
+    try { localStorage.setItem(KEY, next ? "light" : "dark"); } catch (e) {}
+  });
+  document.body.appendChild(btn);
+})();
+</script>
 </body>
 </html>

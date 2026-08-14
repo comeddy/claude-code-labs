@@ -128,6 +128,12 @@ w('''  <p class="body">지키는 규칙은 세 줄입니다.</p>
     왔습니다. 원작은 여기에 4개 언어 번역 드리프트 감지(ko_hash), 주간 자동 레이더 스캔, CI 배지 주입까지 얹어
     운영합니다. 오늘 만드는 것은 그 심장부인 <strong>필터, 규격, 게이트</strong>입니다.
   </div>
+  <div class="callout tip">
+    <span class="co-title">완성 예시 갤러리, 영감이 필요할 때</span>
+    다른 미션들의 완성 예시가 <a href="https://capstone.atomai.click/" style="color:#c9a2ff">Capstone Showcase</a>에 전시되어 있습니다.
+    특히 <strong>01 서울 청약 열람소</strong>는 이 미션과 같은 계열, "지식을 정적 사이트로 출고"를 다른 도메인에서
+    해낸 결과물입니다. 장 구성과 안내 문장의 밀도를 내 플레이북의 마감 기준으로 삼으세요, 주제 선택은 자유입니다.
+  </div>
 </section>
 ''')
 

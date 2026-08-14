@@ -569,6 +569,48 @@ code.inline { white-space: normal; overflow-wrap: anywhere; }
   width: 11px; height: 11px; border-radius: 50%; background: #FF5F57;
   box-shadow: 18px 0 0 #FEBC2E, 36px 0 0 #28C840;
 }
+
+/* ── v6: 화이트 모드 (우측 상단 고정 토글, 라이트 팔레트는 대비 4.5:1 이상) ── */
+.theme-toggle {
+  position: fixed; top: 9px; right: 14px; z-index: 60;
+  font-family: var(--font-body); font-size: 11.5px; font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--muted); background: var(--bg-card);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 5px 14px; cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.theme-toggle:hover { color: var(--orange); border-color: var(--orange); }
+@media (max-width: 1300px) { .timeline-inner { padding-right: 88px; } }
+html.light {
+  --bg: #F4F6F9; --bg-card: #FFFFFF; --bg-inline: #E8EDF3;
+  --line: #D7DEE7;
+  --orange: #A85500; --orange-dim: rgba(168, 85, 0, 0.10);
+  --green: #1F883D; --green-dim: rgba(31, 136, 61, 0.08);
+  --text: #1B2430; --muted: #4B5665; --dim: #66717F;
+}
+html.light ::selection { background: rgba(255, 153, 0, 0.35); }
+html.light .hero::after { background: radial-gradient(closest-side, rgba(182, 0, 46, 0.10), rgba(255, 153, 0, 0.06) 55%, transparent 75%); }
+html.light .timeline { background: rgba(255, 255, 255, 0.92); }
+html.light .step-title .step-no { color: #FFFFFF; }
+html.light code.inline, html.light .tbl code { color: #9A4E00; }
+html.light .tbl th { background: rgba(0, 0, 0, 0.035); }
+html.light .tbl th, html.light .tbl td { border-bottom-color: rgba(0, 0, 0, 0.08); }
+html.light .code-wrap { border-color: #303C4B; }
+html.light .code-head { border-bottom-color: #2A3542; }
+html.light .code-wrap .code-label { color: #7B8198; }
+html.light .code-wrap .copy-btn { color: #A6ABBE; background: #232E3A; border-color: #2A3542; }
+html.light .code-wrap .copy-btn:hover { color: #FF9900; border-color: #FF9900; }
+html.light .code-wrap .copy-btn.copied { color: #3FB950; border-color: #3FB950; }
+html.light .code-wrap.output pre { color: #8B96A5; }
+html.light .callout.warn .co-title { color: #C7325C; }
+html.light .checkpoint { border-color: rgba(31, 136, 61, 0.4); }
+html.light .next-box { background: linear-gradient(90deg, rgba(182, 0, 46, 0.06), rgba(255, 153, 0, 0.05)); }
+html.light .part-divider { background: linear-gradient(135deg, #F0EAFB 0%, #F7F5FC 65%); border-color: #CDBDF0; }
+html.light .part-divider .rules span { background: #EDE6FB; border-color: #CDBDF0; color: #4A2D8A; }
+html.light .task.mission .task-num, html.light .checkpoint.dod .cp-title { color: #6B3FD4; }
+html.light .checkpoint.dod { background: rgba(122, 63, 242, 0.05); }
+html.light details.solution { border-color: #A85500; background: rgba(168, 85, 0, 0.04); }
 </style>
 </head>
 <body>
@@ -1842,6 +1884,30 @@ claude plugin list</code></pre>
     }, { rootMargin: "-20% 0px -65% 0px" });
     sections.forEach(function (s) { io.observe(s); });
   }
+})();
+</script>
+<script>
+(function () {
+  "use strict";
+  var KEY = "hol-theme";
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "theme-toggle";
+  function apply(light) {
+    document.documentElement.classList.toggle("light", light);
+    btn.textContent = light ? "DARK" : "WHITE";
+    btn.setAttribute("aria-pressed", light ? "true" : "false");
+    btn.setAttribute("aria-label", light ? "다크 모드로 전환" : "화이트 모드로 전환");
+  }
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) { saved = null; }
+  apply(saved === "light");
+  btn.addEventListener("click", function () {
+    var next = !document.documentElement.classList.contains("light");
+    apply(next);
+    try { localStorage.setItem(KEY, next ? "light" : "dark"); } catch (e) {}
+  });
+  document.body.appendChild(btn);
 })();
 </script>
 </body>

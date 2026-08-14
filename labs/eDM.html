@@ -187,6 +187,30 @@
     a.ref { grid-template-columns: 52px 1fr; }
     .ref .go { grid-column: 2; }
   }
+
+  /* ── 화이트 모드 (우측 상단 고정 토글, 헤더는 브랜드 다크 유지) ── */
+  .theme-toggle {
+    position: fixed; top: 10px; right: 14px; z-index: 60;
+    font-family: inherit; font-size: 11.5px; font-weight: 800; letter-spacing: .08em;
+    color: var(--muted); background: var(--card);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 5px 14px; cursor: pointer;
+    transition: color .15s, border-color .15s;
+  }
+  .theme-toggle:hover { color: var(--orange); border-color: var(--orange); }
+  html.light {
+    --page: #E9EDF2; --mail: #FFFFFF; --card: #F4F6F9; --code: #EDF1F6; --line: #D7DEE7;
+    --text: #1B2430; --muted: #4B5665; --charcoal: #3D4654;
+    --orange: #A85500; --lavender: #6B3FD4; --green: #1F883D;
+  }
+  html.light code.inline { background: #E8EDF3; color: #9A4E00; }
+  html.light .head h1, html.light .head .wordmark { color: #E8ECF1; }
+  html.light .head .x { color: #8B96A5; }
+  html.light .head .when { color: #FF9900; }
+  html.light .head .where, html.light .head .facts span { color: #C7CDD6; }
+  html.light .head .facts span { border-color: #262F3B; }
+  html.light .btn { background: rgba(0, 0, 0, .03); }
+  html.light .btn.primary { background: var(--orange); color: #FFFFFF; }
 </style>
 </head>
 <body>
@@ -487,5 +511,29 @@
   </footer>
 </div>
 <div class="sign">Claude Code Deep Dive Workshop - 세션 소개</div>
+<script>
+(function () {
+  "use strict";
+  var KEY = "hol-theme";
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "theme-toggle";
+  function apply(light) {
+    document.documentElement.classList.toggle("light", light);
+    btn.textContent = light ? "DARK" : "WHITE";
+    btn.setAttribute("aria-pressed", light ? "true" : "false");
+    btn.setAttribute("aria-label", light ? "다크 모드로 전환" : "화이트 모드로 전환");
+  }
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) { saved = null; }
+  apply(saved === "light");
+  btn.addEventListener("click", function () {
+    var next = !document.documentElement.classList.contains("light");
+    apply(next);
+    try { localStorage.setItem(KEY, next ? "light" : "dark"); } catch (e) {}
+  });
+  document.body.appendChild(btn);
+})();
+</script>
 </body>
 </html>

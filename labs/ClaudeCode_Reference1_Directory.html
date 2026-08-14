@@ -50,6 +50,30 @@
     color:var(--muted); font-size:12.5px; line-height:1.9; }
   footer .who { color:var(--charcoal); font-weight:700; }
   @media (max-width:620px){ .hero{padding:26px 16px 22px} .wrap,footer{padding-left:16px;padding-right:16px} }
+
+/* ── 화이트 모드 (우측 상단 고정 토글, 라이트 팔레트는 대비 4.5:1 이상) ── */
+  .theme-toggle {
+    position: fixed; top: 10px; right: 14px; z-index: 60;
+    font-family: inherit; font-size: 11.5px; font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--muted); background: var(--card);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 5px 14px; cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .theme-toggle:hover { color: var(--orange); border-color: var(--orange); }
+  html.light {
+    --bg: #F4F6F9; --card: #FFFFFF; --line: #D7DEE7; --text: #1B2430;
+    --muted: #4B5665; --charcoal: #3D4654; --orange: #A85500;
+    --green: #1F883D; --lavender: #6B3FD4; --dim: #66717F;
+  }
+  html.light code, html.light code.inline { background: #E8EDF3; color: #9A4E00; }
+  html.light .code-wrap pre code { background: none; color: #D6DEE8; }
+  html.light .hero::after { background: radial-gradient(circle, rgba(182, 0, 46, 0.10), transparent 62%); }
+  html.light .tbl td { border-bottom-color: rgba(0, 0, 0, 0.08); }
+  html.light .code-wrap { border-color: #303C4B; }
+  html.light .code-head { border-bottom-color: #2A3542; }
+  html.light .code-label { color: #7B8198; }
 </style>
 </head>
 <body>
@@ -172,5 +196,29 @@ Windows      C:\Program Files\ClaudeCode\managed-settings.json</code></pre>
   <div class="who">Claude Code Deep Dive Workshop, Reference 1, 디렉토리 구조</div>
   <div>기준: Claude Code 2.1.x, 2026.07 / 설정 문서: code.claude.com/docs/en/settings</div>
 </footer>
+<script>
+(function () {
+  "use strict";
+  var KEY = "hol-theme";
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "theme-toggle";
+  function apply(light) {
+    document.documentElement.classList.toggle("light", light);
+    btn.textContent = light ? "DARK" : "WHITE";
+    btn.setAttribute("aria-pressed", light ? "true" : "false");
+    btn.setAttribute("aria-label", light ? "다크 모드로 전환" : "화이트 모드로 전환");
+  }
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) { saved = null; }
+  apply(saved === "light");
+  btn.addEventListener("click", function () {
+    var next = !document.documentElement.classList.contains("light");
+    apply(next);
+    try { localStorage.setItem(KEY, next ? "light" : "dark"); } catch (e) {}
+  });
+  document.body.appendChild(btn);
+})();
+</script>
 </body>
 </html>
