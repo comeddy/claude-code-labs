@@ -224,6 +224,38 @@ footer .note::before{content:"※ ";color:var(--orange-600)}
   *{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
 }
+/* --- 화이트모드: 프로젝터 저조도 대비 고대비 라이트 테마 --- */
+.mode-toggle{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;
+  font-family:var(--sans);color:var(--on-dark-2);background:transparent;
+  border:1px solid rgba(255,255,255,.35);border-radius:var(--r);padding:6px 13px;cursor:pointer}
+.mode-toggle:hover{color:#fff;border-color:#fff}
+body.white-mode{--text-2:#2A3541;--text-3:#3E4A59;--line:#C9CED4;--line-2:#AEB6BF}
+body.white-mode .mode-toggle{color:var(--squid);border-color:var(--squid-700)}
+body.white-mode .mode-toggle:hover{color:var(--squid-900);border-color:var(--squid-900)}
+body.white-mode .nav{background:#fff;border-bottom:3px solid var(--squid)}
+body.white-mode .brand{color:var(--squid)}
+body.white-mode .nav-links a{color:var(--squid-700)}
+body.white-mode .nav-links a:hover{color:var(--squid-900)}
+body.white-mode .nav-links a.btn-primary{background:var(--squid);color:#fff}
+body.white-mode .hero{background:#fff;color:var(--text);border-bottom:1px solid var(--line-2)}
+body.white-mode .hero::after{display:none}
+body.white-mode .hero h1,body.white-mode .hero-sub strong{color:var(--squid-900)}
+body.white-mode .hero-sub,body.white-mode .factline{color:var(--text-2)}
+body.white-mode .hero-badge{color:var(--orange-ink);background:var(--orange-50);border-color:var(--orange-100)}
+body.white-mode .metric{background:var(--sunken);border-color:var(--line-2)}
+body.white-mode .metric b{color:var(--orange-ink)}
+body.white-mode .metric span{color:var(--text-2)}
+body.white-mode .day-head{background:#fff;color:var(--squid-900);border-bottom:2px solid var(--squid)}
+body.white-mode .day-head .k{color:var(--orange-ink)}
+body.white-mode .day-head h3{color:var(--squid-900)}
+body.white-mode .day-head p{color:var(--text-2)}
+body.white-mode .agenda .code{background:#fff;color:var(--squid-900);box-shadow:inset 0 0 0 1.5px var(--squid)}
+body.white-mode .agenda li.hi .code{background:#fff;color:var(--orange-ink);box-shadow:inset 0 0 0 1.5px var(--orange-600)}
+body.white-mode thead th{background:#fff;color:var(--squid-900);border-bottom:2px solid var(--squid)}
+body.white-mode .close{background:#fff;color:var(--text);border-top:1px solid var(--line-2)}
+body.white-mode .close h2{color:var(--squid-900)}
+body.white-mode .close p{color:var(--text-2)}
+body.white-mode .close .eyebrow{color:var(--orange-ink)}
 </style>
 </head>
 <body>
@@ -237,6 +269,7 @@ footer .note::before{content:"※ ";color:var(--orange-600)}
       <a href="#agenda">아젠다</a>
       <a href="#capstone">캡스톤</a>
       <a href="#env">교육 환경</a>
+      <button class="mode-toggle" id="modeToggle" type="button" aria-pressed="false">화이트모드</button>
       <a class="btn btn-primary" href="index.html">Lab 포털</a>
     </div>
   </div>
@@ -484,6 +517,21 @@ footer .note::before{content:"※ ";color:var(--orange-600)}
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
   document.querySelectorAll('svg animate, svg animateTransform').forEach(function(a){ a.remove(); });
 }
+(function(){
+  var btn = document.getElementById('modeToggle');
+  function apply(on){
+    document.body.classList.toggle('white-mode', on);
+    btn.setAttribute('aria-pressed', String(on));
+    btn.textContent = on ? '기본모드' : '화이트모드';
+    try { localStorage.setItem('lge-edm-mode', on ? 'white' : 'default'); } catch(e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem('lge-edm-mode'); } catch(e) {}
+  apply(saved === 'white');
+  btn.addEventListener('click', function(){
+    apply(!document.body.classList.contains('white-mode'));
+  });
+})();
 </script>
 </body>
 </html>
