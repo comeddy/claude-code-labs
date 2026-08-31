@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css">
-<title>Capstone 5, Quake Watch - Claude Code Deep Dive Workshop</title>
+<title>Capstone 6, Newsroom Lens - Claude Code Deep Dive Workshop</title>
 <style>
 :root {
   --bg: #12181F;
@@ -611,18 +611,19 @@ html[data-theme="light"] .checkpoint.dod .cp-title{color:#6b46c1}
 <body>
 
 <header class="hero">
-  <span class="eyebrow">CAPSTONE 5 / QUAKE WATCH / 120 MIN</span>
-  <h1>지구의 맥박, 실시간 지진 워치</h1>
-  <div class="subtitle">USGS 피드 → 멱등 이벤트 스토어 → 세계지도 SVG → AI 해설, 그리고 CloudFront 개장</div>
+  <span class="eyebrow">CAPSTONE 6 / NEWSROOM LENS / 120 MIN</span>
+  <h1>뉴스룸 렌즈, 4개 매체 관점 비교</h1>
+  <div class="subtitle">RSS 수집 → 토픽 클러스터 → 매체별 프레이밍 비교, LLM이 아니면 못 만드는 화면</div>
   <p class="lede">
-    지금 이 순간에도 지구는 움직입니다. 전 세계 규모 2.5 이상의 지진을 <strong>실시간 피드로 수집해</strong>
-    세계지도 위에 펄스로 띄우고, Bedrock이 "지난 24시간, 지구는"을 해설합니다. 키 발급이 필요 없는
-    공공 데이터라 시작이 빠르고, 마감은 CloudFront → ALB → Fargate 실배포입니다. 120분, 배포까지 완결합니다.
+    같은 사건도 뉴스룸마다 다르게 부릅니다. BBC, The Guardian, NHK World, 연합뉴스의 헤드라인을
+    <strong>주기 수집해 나란히 놓고</strong>, Bedrock이 공통 토픽을 묶어 <strong>매체별 프레임을 한국어로 비교</strong>합니다.
+    요약을 넘어 관점을 읽는 도구 - 이것이 LLM 고유의 화면입니다. 키 발급 없음, 마감은 CloudFront 실배포,
+    120분에 완결합니다.
   </p>
   <div class="hero-meta">
     <span>소요 시간 <strong>120분</strong></span>
     <span>미션 <strong>5개 + DoD</strong></span>
-    <span>산출물 <strong>공개 URL로 열리는 내 지진 워치</strong></span>
+    <span>산출물 <strong>공개 URL로 열리는 내 미디어 렌즈</strong></span>
     <span>Update <strong>2026.08</strong></span>
   </div>
 </header>
@@ -633,9 +634,9 @@ html[data-theme="light"] .checkpoint.dod .cp-title{color:#6b46c1}
     <div class="segments" id="segments">
       <button class="seg" data-task="m0" style="flex:5" title="M0 사전 준비, 5분"><span class="fill"></span><span class="seg-txt">M0</span></button>
       <button class="seg" data-task="m1" style="flex:15" title="M1 설계, 15분"><span class="fill"></span><span class="seg-txt">M1 설계</span></button>
-      <button class="seg" data-task="m2" style="flex:30" title="M2 수집기와 스토어, 30분"><span class="fill"></span><span class="seg-txt">M2 수집기</span></button>
-      <button class="seg" data-task="m3" style="flex:40" title="M3 세계지도, 40분"><span class="fill"></span><span class="seg-txt">M3 세계지도</span></button>
-      <button class="seg" data-task="m4" style="flex:30" title="M4 브리핑과 개장, 30분"><span class="fill"></span><span class="seg-txt">M4 개장</span></button>
+      <button class="seg" data-task="m2" style="flex:30" title="M2 수집기, 30분"><span class="fill"></span><span class="seg-txt">M2 수집기</span></button>
+      <button class="seg" data-task="m3" style="flex:30" title="M3 뉴스룸 그리드, 30분"><span class="fill"></span><span class="seg-txt">M3 그리드</span></button>
+      <button class="seg" data-task="m4" style="flex:40" title="M4 렌즈와 개장, 40분"><span class="fill"></span><span class="seg-txt">M4 렌즈와 개장</span></button>
     </div>
     <span class="timeline-label">120 min</span>
   </div>
@@ -650,8 +651,8 @@ html[data-theme="light"] .checkpoint.dod .cp-title{color:#6b46c1}
   <a href="#m0" data-nav="m0"><span class="dot"></span>M0 사전 준비<span class="nav-time">5분</span></a>
   <a href="#m1" data-nav="m1"><span class="dot"></span>M1 설계<span class="nav-time">15분</span></a>
   <a href="#m2" data-nav="m2"><span class="dot"></span>M2 수집기와 스토어<span class="nav-time">30분</span></a>
-  <a href="#m3" data-nav="m3"><span class="dot"></span>M3 세계지도<span class="nav-time">40분</span></a>
-  <a href="#m4" data-nav="m4"><span class="dot"></span>M4 브리핑과 개장<span class="nav-time">30분</span></a>
+  <a href="#m3" data-nav="m3"><span class="dot"></span>M3 뉴스룸 그리드<span class="nav-time">30분</span></a>
+  <a href="#m4" data-nav="m4"><span class="dot"></span>M4 렌즈와 개장<span class="nav-time">40분</span></a>
   <a href="#gq" data-nav="gq"><span class="dot"></span>BONUS 퀄리티 강화<span class="nav-time">+α</span></a>
   <a href="#opt-h" data-nav="opt-h"><span class="dot"></span>OPT 하네스 엔지니어링<span class="nav-time">+15분</span></a>
   <a href="#wrapup" data-nav="wrapup"><span class="dot"></span>마무리<span class="nav-time"></span></a>
@@ -660,56 +661,54 @@ html[data-theme="light"] .checkpoint.dod .cp-title{color:#6b46c1}
 <main>
 
 <section class="task" id="brief">
-  <div class="task-head"><span class="task-num">MISSION BRIEFING</span><h2>지구를 모니터링하는 법</h2><span class="time-badge">숙지</span></div>
+  <div class="task-head"><span class="task-num">MISSION BRIEFING</span><h2>관점을 비교하는 법</h2><span class="time-badge">숙지</span></div>
   <p class="task-goal">
     <strong>빈 폴더에서 superpowers 워크플로로</strong> 설계하고 Phase 단위로 빌드합니다.
-    2시간 트랙이라 키 발급이 없고(USGS는 공공 피드), 마감은 로컬이 아니라 <strong>CloudFront 실배포</strong>입니다.
-    데이터는 실제 지구의 기록이며, 수집 주기마다 바뀝니다.
+    2시간 트랙이라 키 발급이 없고(4개 매체 공개 RSS), 마감은 <strong>CloudFront 실배포</strong>입니다.
+    소스는 영문 3개 + 한국어 1개지만, <strong>화면의 토픽과 비교 브리핑은 전부 한국어</strong>입니다(원문 제목 병기).
   </p>
   <table class="tbl">
     <tr><th>레이어</th><th>구성</th><th>핵심 원칙</th></tr>
-    <tr><td>수집</td><td>USGS 2.5_day.geojson을 60초 폴링</td><td>키 없음, 피드 하나가 전체 상류. 비정상 필드는 다듬고 계속</td></tr>
-    <tr><td>저장</td><td>이벤트 id 멱등 딕셔너리(최대 500건)</td><td>같은 지진은 한 번만, 신규 진입을 사이클마다 기록</td></tr>
-    <tr><td>화면</td><td>등장방형 세계지도 SVG + 필터 + 테이블</td><td>좌표 변환 두 줄이 지도의 전부, 라이브러리 없음</td></tr>
-    <tr><td>AI와 개장</td><td>REST 직접 브리핑, CDK로 CF → ALB → Fargate</td><td>Bearer는 Secrets로 기동 주입, 이미지에 비밀 없음</td></tr>
+    <tr><td>수집</td><td>BBC / Guardian / NHK World / 연합뉴스 RSS를 120초 폴링</td><td>소스별 실패 격리, 피드 하나가 죽어도 뉴스룸은 산다</td></tr>
+    <tr><td>저장</td><td>기사 link 멱등 딕셔너리(소스별 50건)</td><td>본문은 저장하지 않는다, 헤드라인 + 요약 + 링크만</td></tr>
+    <tr><td>렌즈</td><td>공통 토픽 클러스터 + 매체별 프레임을 <strong>JSON 계약</strong>으로</td><td>LLM 출력이 곧 화면 데이터, 계약이 무너지면 화면도 무너진다</td></tr>
+    <tr><td>개장</td><td>CDK로 CF → prefix SG → ALB → Fargate</td><td>Bearer는 Secrets 기동 주입, 이미지에 비밀 없음</td></tr>
   </table>
 
-  <p class="body"><strong>1. 워치 (메인 화면)</strong></p>
+  <p class="body"><strong>1. 뉴스룸 (기본 뷰)</strong></p>
   <table class="tbl">
     <tr><th>기능</th><th>설명</th></tr>
-    <tr><td>세계지도</td><td>진앙을 원으로: <strong>반지름은 규모, 색은 깊이</strong>(얕음 주황 → 깊음 보라), 최근 1시간은 펄스</td></tr>
-    <tr><td>통계 바</td><td>24h 건수, 최대 규모, 활동 최다 지역, 마지막 수집 시각</td></tr>
-    <tr><td>이벤트 테이블</td><td>시각(KST), 규모, 지역, 깊이 - 최신순, 지도와 같은 데이터</td></tr>
-    <tr><td>필터</td><td>규모 슬라이더(2.5~6.0)와 시간 창(6h/24h), 듀얼 테마</td></tr>
+    <tr><td>4열 그리드</td><td>매체별 최신 헤드라인 카드, 원문 링크 새 탭, 상대 시각("12분 전")</td></tr>
+    <tr><td>소스 상태 바</td><td>매체별 마지막 수집 시각과 건수, 실패 시 경고 배지</td></tr>
+    <tr><td>듀얼 테마</td><td>시스템 기본 + 토글 + localStorage</td></tr>
   </table>
-  <p class="body"><strong>2. 해설과 개장</strong></p>
+  <p class="body"><strong>2. 렌즈 (이 캡스톤의 심장)</strong></p>
   <table class="tbl">
     <tr><th>기능</th><th>설명</th></tr>
-    <tr><td>브리핑</td><td>"지난 24시간, 지구는" - 전체 흐름, 주목 이벤트 2~3개, 활동 급증 지역, 한국어</td></tr>
-    <tr><td>브리핑 캐시</td><td>같은 10분 버킷 동안 재사용, LLM 호출은 아껴 쓴다</td></tr>
-    <tr><td>실배포</td><td>CloudFront → prefix list SG + X-Origin-Verify → ALB → Fargate</td></tr>
-    <tr><td>피날레</td><td>CloudFront URL을 Slack에, 누구나 열리는 내 지진 워치</td></tr>
+    <tr><td>토픽 클러스터</td><td>2개 이상 매체가 다룬 공통 토픽 3~5개, 공통 사실 요약</td></tr>
+    <tr><td>프레임 비교</td><td>토픽마다 <strong>4개 매체의 프레임을 나란히</strong>, 미보도는 회색 - 침묵도 관점이다</td></tr>
+    <tr><td>근거 링크</td><td>모든 프레임 칩에 원문 기사 링크, 출처 없는 주장 없음</td></tr>
+    <tr><td>렌즈 캐시</td><td>같은 10분 버킷 동안 재사용</td></tr>
   </table>
 
   <div class="step-title"><span class="step-no">L</span>학습 목표, Level 200</div>
   <p class="body">이 캡스톤을 마치면 다음 네 가지를 <strong>설명할 수 있고, 다시 만들 수 있습니다</strong>.</p>
   <table class="tbl">
     <tr><th>목표</th><th>검증되는 순간</th></tr>
-    <tr><td>이벤트 id 기반 멱등 수집을 설계하는 법</td><td>M2에서 같은 지진이 폴링마다 와도 스토어가 한 건만 유지할 때</td></tr>
-    <tr><td>지리 좌표를 화면 좌표로 바꾸는 최소 수학</td><td>M3에서 변환 두 줄로 진앙이 제자리에 찍힐 때</td></tr>
-    <tr><td>수치 데이터를 서사로 푸는 브리핑 프롬프트</td><td>M4에서 통계 요약이 읽고 싶은 해설로 돌아올 때</td></tr>
+    <tr><td>이질적 소스를 하나의 스키마로 정규화하는 법</td><td>M2에서 4개 피드가 같은 모양의 JSON으로 나란히 설 때</td></tr>
+    <tr><td>LLM 출력에 JSON 계약을 거는 법</td><td>M4에서 클러스터 응답이 파싱 한 번에 화면 데이터가 될 때</td></tr>
+    <tr><td>요약을 넘어 관점 비교를 시키는 프롬프트 설계</td><td>같은 토픽의 매체별 프레임이 실제로 다르게 읽힐 때</td></tr>
     <tr><td>컨테이너 앱을 CF → ALB → Fargate로 개장하는 법</td><td>내 CloudFront URL이 다른 사람 브라우저에서 열릴 때</td></tr>
   </table>
 
   <div class="step-title"><span class="step-no">R</span>챕터 연결 지도, 배운 내용이 재등장하는 곳</div>
   <table class="tbl">
-    <tr><th>챕터</th><th>이 캡스톤에서 재등장하는 곳</th></tr>
     <tr><td><a href="ClaudeCode_Ch1_HandsOnLab.html" style="color:#c9a2ff">Ch1 설치부터 Headless까지</a></td><td>M0~전체: 세션 운용, 지시 → 실행 → 검증 루프</td></tr>
-    <tr><td><a href="ClaudeCode_Ch2_HandsOnLab.html" style="color:#c9a2ff">Ch2 Subagents</a></td><td>M2~M3: 수집기 리뷰를 code-reviewer에게, 지도와 테이블 병행</td></tr>
+    <tr><td><a href="ClaudeCode_Ch2_HandsOnLab.html" style="color:#c9a2ff">Ch2 Subagents</a></td><td>M2~M3: 수집기 리뷰를 code-reviewer에게, 그리드와 상태 바 병행</td></tr>
     <tr><td><a href="ClaudeCode_Ch3_HandsOnLab.html" style="color:#c9a2ff">Ch3 Admin Setup</a></td><td>M4: Bearer 자격과 Secrets 주입이 도는 통제선의 배경</td></tr>
     <tr><td><a href="ClaudeCode_Ch4_HandsOnLab.html" style="color:#c9a2ff">Ch4 Settings, 훅과 스킬</a></td><td>OPT: 하네스 성숙화, 훅과 스킬의 프로젝트 자산화</td></tr>
-    <tr><td><a href="ClaudeCode_Ch5_HandsOnLab.html" style="color:#c9a2ff">Ch5 CLI Reference</a></td><td>확장 방향: 수집 상태 점검을 헤드리스 파이프라인으로</td></tr>
-    <tr><td><a href="ClaudeCode_Ch6_HandsOnLab.html" style="color:#c9a2ff">Ch6 Agent SDK</a></td><td>확장 방향: 큰 지진 감지 시 브리핑을 코드에서 부르는 알림 봇</td></tr>
+    <tr><td><a href="ClaudeCode_Ch5_HandsOnLab.html" style="color:#c9a2ff">Ch5 CLI Reference</a></td><td>확장 방향: 아침 렌즈를 헤드리스로 뽑아 Slack에 배달하는 파이프라인</td></tr>
+    <tr><td><a href="ClaudeCode_Ch6_HandsOnLab.html" style="color:#c9a2ff">Ch6 Agent SDK</a></td><td>확장 방향: 렌즈 생성을 코드에서 부르는 상주 미디어 데스크</td></tr>
   </table>
   <div class="callout tip">
     <span class="co-title">규칙, 캡스톤 공통</span>
@@ -720,42 +719,63 @@ html[data-theme="light"] .checkpoint.dod .cp-title{color:#6b46c1}
 
 <section class="task" id="blueprint">
   <div class="task-head"><span class="task-num">BLUEPRINT</span><h2>구현 청사진</h2><span class="time-badge">참고</span></div>
-  <p class="task-goal">M1 설계가 이 구조로 수렴하도록 방향을 잡아 주는 <strong>구현 지도</strong>입니다. 계획이 이상하게 흐르면 여기로 돌아와 대조하세요.</p>
+  <p class="task-goal">M1 설계가 이 구조로 수렴하도록 방향을 잡아 주는 <strong>구현 지도</strong>입니다.</p>
 
   <div class="step-title"><span class="step-no">0</span>세 개의 경로 한 눈에</div>
   <div class="code-wrap output">
-    <div class="code-head"><span class="code-label">수집 루프, 조회 경로, 출고 경로</span></div>
-    <pre><code>[수집 루프]  60초마다
-Scheduler ──> Collector: GET 2.5_day.geojson ──> 정규화(id, mag, place, time, lon/lat/depth)
-                                                      │
-                    Event Store <── 멱등 upsert(같은 id는 한 번만) ──+── 신규 진입 id 기록
+    <div class="code-head"><span class="code-label">수집 루프, 조회 경로, 렌즈 경로</span></div>
+    <pre><code>[수집 루프]  120초마다, 소스별 격리
+Scheduler ──> Collector: BBC / Guardian / NHK / 연합 RSS ──> 정규화(source, title, link, published, summary)
+                                │ (한 피드 실패는 그 피드만)              │
+                                +── 소스 상태 기록          Store <── link 멱등 upsert ──+
 
 [조회 경로]  브라우저가 당길 때
-Browser ── fetch ──> FastAPI: /api/quakes?hours=&min_mag= ──> 필터 + 통계 + 목록
-   ^                                                              (USGS를 직접 치지 않는다)
-   +── 지도 원(반지름=규모, 색=깊이) + 테이블 ────────────────────────+
+Browser ── fetch ──> FastAPI: /api/articles ──> 4열 그리드 + 소스 상태 바
 
-[출고 경로]  개장
-docker build ──> ECR push ──> CDK: CloudFront ──> (prefix list SG + X-Origin-Verify) ALB ──> Fargate
-                                                    Secrets Manager ──(기동 주입)──> AWS_BEARER_TOKEN_BEDROCK</code></pre>
+[렌즈 경로]  버튼 눌렀을 때만, 이 캡스톤의 심장
+FastAPI ── 4소스 헤드라인 묶음 ──> httpx POST converse(Bearer) ──> JSON만:
+   clusters[{topic, summary, frames{bbc/guardian/nhk/yna}, sources}] + overview
+   │
+   +── 10분 버킷 캐시 ──> 클러스터 뷰(프레임 나란히, 미보도 회색, 근거 링크)</code></pre>
   </div>
 
-  <div class="step-title"><span class="step-no">1</span>상류 계약 (USGS 피드 실물)</div>
+  <div class="step-title"><span class="step-no">1</span>소스 계약 (2026.08 확인 기준)</div>
   <table class="tbl">
-    <tr><th>항목</th><th>내용</th></tr>
-    <tr><td>피드 URL</td><td>earthquake.usgs.gov/earthquakes/feed/v1.0/summary/<b>2.5_day.geojson</b> (규모 2.5+, 최근 24h)</td></tr>
-    <tr><td>이벤트 키</td><td>feature.id (예: us7000abcd) - 멱등의 기준, 같은 지진은 갱신만</td></tr>
-    <tr><td>핵심 필드</td><td>properties.mag / place / time(UTC 밀리초), geometry.coordinates = [경도, 위도, 깊이km]</td></tr>
-    <tr><td>좌표 변환</td><td>x = (경도+180)/360 × 지도폭, y = (90-위도)/180 × 지도높이 (등장방형)</td></tr>
-    <tr><td>폴링 예산</td><td>정적 피드라 사실상 한도 없음, 그래도 60초면 충분하고 캐시 친화적</td></tr>
+    <tr><th>매체</th><th>언어</th><th>피드</th><th>비고</th></tr>
+    <tr><td>BBC World</td><td>영어</td><td>feeds.bbci.co.uk의 world 편 RSS</td><td>공식 제공, 안정</td></tr>
+    <tr><td>The Guardian World</td><td>영어</td><td>theguardian.com/world/rss</td><td>섹션 URL + /rss 관례, 공식</td></tr>
+    <tr><td>NHK World</td><td>영어</td><td>www3.nhk.or.jp 영문 뉴스 RSS</td><td>일본 관점의 영문 발신</td></tr>
+    <tr><td>연합뉴스 국제</td><td>한국어</td><td>yna.co.kr 국제 섹션 RSS</td><td>유일한 한국어 소스</td></tr>
   </table>
+  <p class="body">참고: Reuters는 공식 RSS를 2020년에 중단해 소스에서 제외했습니다. 피드 URL은 변할 수 있는 값이라
+  <strong>구현 시 각 사 RSS 허브에서 확인해 config에 확인일과 함께 기록</strong>하는 것이 M2의 첫 작업입니다 - 상류 계약을
+  문서화하는 습관 자체가 학습입니다.</p>
 
-  <div class="step-title"><span class="step-no">2</span>기술 선택 4</div>
+  <div class="step-title"><span class="step-no">2</span>렌즈 JSON 계약 (LLM 출력 = 화면 데이터)</div>
+  <div class="code-wrap output">
+    <div class="code-head"><span class="code-label">POST /api/lens 응답 형태</span></div>
+    <pre><code>{
+  "clusters": [
+    {
+      "topic": "한국어 토픽명",
+      "summary": "매체들이 공통으로 전하는 사실, 2문장",
+      "frames": {
+        "bbc": "이 매체가 무엇을 앞세우는지 1문장",
+        "guardian": "...", "nhk": "...", "yna": "미보도"
+      },
+      "sources": { "bbc": [0, 3], "guardian": [1], "nhk": [2], "yna": [] }
+    }
+  ],
+  "overview": "오늘의 미디어 지형, 3문장"
+}</code></pre>
+  </div>
+
+  <div class="step-title"><span class="step-no">3</span>기술 선택 4</div>
   <table class="tbl">
     <tr><th>선택</th><th>이유</th></tr>
-    <tr><td>이벤트 id 멱등 스토어</td><td>피드는 24h 창이라 매 폴링 대부분이 재등장, 키 기반 upsert가 시계열을 오염에서 지킨다</td></tr>
-    <tr><td>등장방형 투영</td><td>두 줄짜리 수학으로 충분히 정확한 세계지도, 라이브러리는 과잉</td></tr>
-    <tr><td>Bedrock REST 직접</td><td>SDK 없이 Authorization 헤더 + JSON, "LLM 호출은 결국 HTTP"</td></tr>
+    <tr><td>link 멱등 + 본문 미저장</td><td>중복 없는 스토어와 출처 존중을 한 번에, 우리는 렌즈지 아카이브가 아니다</td></tr>
+    <tr><td>소스별 실패 격리</td><td>RSS는 언제든 한 곳이 느려진다, 4분의 1의 장애가 4분의 4가 되면 안 된다</td></tr>
+    <tr><td>JSON 전용 LLM 계약</td><td>자유 산문은 사람용, 화면용 출력은 스키마 - 파싱 가능성이 곧 신뢰성</td></tr>
     <tr><td>CF → ALB → Fargate 개장 형식</td><td>prefix list SG와 X-Origin-Verify 이중 방어를 갖춘, 공개 URL까지 가는 최단 경로</td></tr>
   </table>
 </section>
@@ -765,10 +785,10 @@ docker build ──> ECR push ──> CDK: CloudFront ──> (prefix list SG + 
   <p class="task-goal">이 트랙은 <strong>외부 키 발급이 없습니다</strong>. Bedrock Bearer와 AWS 자격만 확인하면 출발입니다.</p>
   <div class="code-wrap">
     <div class="code-head"><span class="code-label">Terminal</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>mkdir -p ~/capstone/capstone-5 &amp;&amp; cd ~/capstone/capstone-5
-set -a; source ~/capstone/.env; set +a          # AWS_BEARER_TOKEN_BEDROCK 로드
+    <pre><code>mkdir -p ~/capstone/capstone-6 &amp;&amp; cd ~/capstone/capstone-6
+set -a; source ~/capstone/.env; set +a
 python3 -c "import os; print('Bearer:', 'OK' if os.environ.get('AWS_BEARER_TOKEN_BEDROCK') else 'MISSING')"
-aws sts get-caller-identity --query Account --output text   # 배포용 자격 확인</code></pre>
+aws sts get-caller-identity --query Account --output text</code></pre>
   </div>
   <div class="checkpoint">
     <div class="cp-title">CHECKPOINT</div>
@@ -778,42 +798,46 @@ aws sts get-caller-identity --query Account --output text   # 배포용 자격 �
 
 <section class="task" id="m1">
   <div class="task-head"><span class="task-num">MISSION 01</span><h2>설계, 브레인스토밍</h2><span class="time-badge">15분</span></div>
-  <p class="task-goal">수집/저장/지도/브리핑/배포까지 <strong>요구 9조항</strong>으로 넘깁니다.</p>
+  <p class="task-goal">소스 4개, 정규화, JSON 렌즈 계약, 배포까지 <strong>요구 9조항</strong>으로 넘깁니다.</p>
   <p class="body" style="color:#A6ABBE">이 미션의 바탕 학습: <a href="ClaudeCode_Ch1_HandsOnLab.html" style="color:#c9a2ff">Ch1</a>의 세션 운용과 Capstone Setup의 superpowers 워크플로.</p>
   <div class="code-wrap">
-    <div class="code-head"><span class="code-label">Terminal (~/capstone/capstone-5)</span><button class="copy-btn" type="button">복사</button></div>
+    <div class="code-head"><span class="code-label">Terminal (~/capstone/capstone-6)</span><button class="copy-btn" type="button">복사</button></div>
     <pre><code>claude</code></pre>
   </div>
   <div class="code-wrap prompt">
     <div class="code-head"><span class="code-label">Claude 세션 입력, 전체 복사</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>/superpowers:brainstorming 다음 요구사항으로 "Quake Watch", 전 세계 실시간 지진 모니터를 설계하자.
-1) 구조: backend/(Python 3.11+ FastAPI, app/collector 수집, app/store 스냅샷, app/api 라우트,
-   app/llm 브리핑, config.py) + frontend/index.html(빌드 없는 정적 SPA 한 장). FastAPI가 정적 파일을
-   함께 서빙해 :8000 하나로 완결. 컨테이너는 Dockerfile 한 장
-2) 수집기: httpx로 USGS 피드 GET
-   https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson 을 60초 주기 폴링.
-   각 feature에서 id, properties.mag / place / time(UTC ms), geometry.coordinates[경도, 위도, 깊이km]만
-   정규화. 비정상 필드는 0 또는 "unknown"으로 다듬고 계속(부분 실패 격리)
-3) 스토어: 이벤트 id를 멱등 키로 하는 인메모리 딕셔너리(최대 500건, 오래된 것부터 제거).
-   같은 id는 갱신만 하고 중복 삽입하지 않는다. 신규 진입 id 목록을 사이클마다 기록
-4) API 계약: GET /healthz, GET /api/quakes?hours=24&amp;min_mag=2.5 (시간 창과 규모 필터,
-   최신순 목록 + 요약 통계: 건수, 최대 규모, 활동 최다 지역), POST /api/brief (아래 6)
-5) 화면(텍스트 스펙): 라이트/다크 듀얼 테마(토글 + localStorage). 상단 통계 바(24h 건수, 최대 규모,
-   최다 지역, 마지막 수집 시각). 중앙에 등장방형(equirectangular) 세계지도, 외부 라이브러리 없이
-   인라인 SVG: 대륙 윤곽은 간이 폴리라인이면 충분, 진앙은 원으로 - 반지름은 규모에 비례(mag*2.2px),
-   색은 깊이(얕음 주황 → 깊음 보라), 최근 1시간 이벤트는 펄스 애니메이션. 좌표 변환은
-   x=(경도+180)/360*폭, y=(90-위도)/180*높이. 하단에 최근 이벤트 테이블(시각 KST 변환, 규모, 지역, 깊이)과
-   규모 필터 슬라이더(2.5~6.0)
-6) 브리핑(LLM): Bedrock Converse를 SDK 없이 httpx 직접 REST로.
+    <pre><code>/superpowers:brainstorming 다음 요구사항으로 "Newsroom Lens", 4개 매체의 관점 비교 뉴스룸을 설계하자.
+1) 구조: backend/(Python 3.11+ FastAPI, app/collector 수집, app/store, app/api, app/llm, config.py)
+   + frontend/index.html(빌드 없는 정적 SPA 한 장). FastAPI가 정적 파일을 함께 서빙해 :8000 완결.
+   Dockerfile 한 장
+2) 소스 4개(전부 공개 RSS, 키 불요), config.py 상수로:
+   BBC World, The Guardian World, NHK World(영문), 연합뉴스 국제 - 각 항목은 {id, 이름, 언어, rss_url}.
+   피드 URL은 구현 시점에 각 사 공식 RSS 허브에서 확인해 채운다(하드코딩하되 주석으로 확인일 기록)
+3) 수집기: feedparser로 4개 피드를 120초 주기 수집, 소스별 최신 15건을
+   {source, title, link, published(UTC ISO), summary(HTML 태그 제거, 300자 절단)}로 정규화.
+   피드 하나가 실패해도 나머지는 계속(소스별 실패 격리), 마지막 성공 시각을 소스별로 기록
+4) 스토어: link를 멱등 키로 하는 인메모리 딕셔너리(소스별 최대 50건). 같은 기사는 published만 갱신
+5) API 계약: GET /healthz, GET /api/articles(소스별 최신 목록 + 소스 상태),
+   POST /api/lens (아래 6, 같은 10분 버킷 캐시)
+6) 렌즈(LLM, 이 캡스톤의 심장): Bedrock Converse를 SDK 없이 httpx 직접 REST로.
    POST https://bedrock-runtime.ap-northeast-2.amazonaws.com/model/global.anthropic.claude-sonnet-4-6/converse
-   Authorization: Bearer(환경변수 AWS_BEARER_TOKEN_BEDROCK), maxTokens 700.
-   입력은 최근 24h 요약 통계와 상위 이벤트 목록, 출력은 한국어 "지난 24시간, 지구는" 브리핑:
-   전체 흐름 한 문단, 주목 이벤트 2~3개 해설, 활동 급증 지역. 같은 10분 버킷 동안 결과 캐시
-7) 키의 거처: AWS_BEARER_TOKEN_BEDROCK은 환경변수로만. USGS는 키가 없다, 화면은 우리 API만 본다
-8) 배포: CDK로 CloudFront → (prefix list SG + X-Origin-Verify) ALB → ECS Fargate 를 구성해 배포한다. Secrets Manager가 Bearer를 기동 시 주입, 이미지에 비밀 없음
-9) 구현 순서: Phase 1(수집기 + 스토어 + /api/quakes, curl 검증) → Phase 2(지도 SVG + 테이블 + 필터)
-   → Phase 3(브리핑 + 캐시) → Phase 4(cdk deploy와 CloudFront 개장). 시간 제약 2시간:
-   테스트 생략, curl과 브라우저로 검증. 결정이 필요하면 이 범위 안에서 최소한으로만 물어봐.</code></pre>
+   Authorization: Bearer(환경변수 AWS_BEARER_TOKEN_BEDROCK), maxTokens 1500.
+   입력은 4개 소스의 최신 헤드라인+요약 묶음. 출력은 반드시 JSON만:
+   {"clusters":[{"topic":"한국어 토픽명","summary":"공통 사실 2문장",
+     "frames":{"bbc":"이 매체의 프레임 1문장","guardian":"...","nhk":"...","yna":"..."},
+     "sources":{"bbc":[기사 인덱스],...}}], "overview":"오늘의 미디어 지형 3문장"}
+   클러스터는 2개 이상 매체가 다룬 공통 토픽만 3~5개. 다루지 않은 매체의 frame은 "미보도".
+   모든 생성 텍스트는 한국어, 기사 제목 원문은 화면에서 병기
+7) 화면(텍스트 스펙): 라이트/다크 듀얼 테마. 상단 소스 상태 바(4개 매체, 마지막 수집, 건수).
+   기본 뷰는 4열 카드 그리드(매체별 최신 헤드라인, 원문 링크 새 탭, 상대 시각).
+   "렌즈" 버튼 → 클러스터 뷰: 토픽 카드마다 공통 요약 + 4개 매체 프레임을 나란히,
+   미보도는 회색 처리, 근거 기사 링크 칩. 뷰 전환 토글
+8) 키와 윤리: Bearer는 환경변수로만. 기사 본문을 저장하지 않는다(헤드라인+요약+링크만),
+   화면 모든 카드에 원문 출처 링크 필수
+9) 배포와 순서: CDK로 CloudFront → (prefix list SG + X-Origin-Verify) ALB → Fargate 를 구성,
+   Secrets 기동 주입. Phase 1(수집 + 스토어 + /api/articles) → Phase 2(4열 그리드)
+   → Phase 3(렌즈 JSON + 클러스터 뷰) → Phase 4(cdk deploy 개장). 2시간 제약: 테스트 생략,
+   curl과 브라우저로 검증. 결정이 필요하면 이 범위 안에서 최소한으로만 물어봐.</code></pre>
   </div>
 
   <div class="callout tip">
@@ -831,160 +855,170 @@ aws sts get-caller-identity --query Account --output text   # 배포용 자격 �
 
 <section class="task" id="m2">
   <div class="task-head"><span class="task-num">MISSION 02</span><h2>Phase 1, 수집기와 스토어</h2><span class="time-badge">30분</span></div>
-  <p class="task-goal">피드가 60초마다 돌고, 이벤트가 <strong>id 멱등으로</strong> 쌓이고, /api/quakes가 필터와 통계를 얹어 주면 끝입니다.</p>
-  <p class="body" style="color:#A6ABBE">이 미션의 바탕 학습: <a href="ClaudeCode_Ch1_HandsOnLab.html" style="color:#c9a2ff">Ch1</a>의 지시 → 실행 → 검증 루프. 여유가 있다면 <a href="ClaudeCode_Ch2_HandsOnLab.html" style="color:#c9a2ff">Ch2</a>의 code-reviewer에게 수집기 리뷰를 맡겨 보세요.</p>
+  <p class="task-goal">4개 피드가 <strong>같은 모양으로 정규화되어</strong> 쌓이고, 한 피드가 죽어도 나머지가 살면 끝입니다.</p>
+  <p class="body" style="color:#A6ABBE">이 미션의 바탕 학습: <a href="ClaudeCode_Ch1_HandsOnLab.html" style="color:#c9a2ff">Ch1</a>의 지시 → 실행 → 검증 루프. 여유가 있다면 <a href="ClaudeCode_Ch2_HandsOnLab.html" style="color:#c9a2ff">Ch2</a>의 code-reviewer에게 정규화 로직 리뷰를 맡겨 보세요.</p>
 
   <div class="callout tip">
     <span class="co-title">2시간의 열쇠, 인프라 선배포</span>
     <code class="inline">cdk deploy</code>는 첫 회 12~15분이 걸립니다. <strong>Phase 1을 시작하자마자
-    별도 터미널에서 인프라 배포를 먼저 걸어 두세요</strong>(앱 이미지는 나중에 갱신). 빌드와 배포 대기가
-    겹치면 M4는 이미지 푸시와 서비스 갱신만 남아 10분 안에 개장합니다.
+    별도 터미널에서 인프라 배포를 먼저 걸어 두세요</strong>. 빌드와 배포 대기가 겹치면
+    M4는 이미지 푸시와 서비스 갱신만 남아 10분 안에 개장합니다.
   </div>  <div class="code-wrap">
     <div class="code-head"><span class="code-label">Terminal 2, 인프라 선배포 (백그라운드)</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>cd ~/capstone/capstone-5 &amp;&amp; npx aws-cdk@2 deploy --require-approval never   # Claude가 infra를 만든 직후 실행</code></pre>
+    <pre><code>cd ~/capstone/capstone-6 &amp;&amp; npx aws-cdk@2 deploy --require-approval never   # Claude가 infra를 만든 직후 실행</code></pre>
   </div>
   <div class="code-wrap prompt">
     <div class="code-head"><span class="code-label">Claude 세션 입력</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>/superpowers:execute-plan Phase 1만 구현하고 멈춰줘. backend venv + requirements(fastapi, uvicorn, httpx, apscheduler), USGS 수집기(60초, 정규화, 부분 실패 격리), 이벤트 id 멱등 스토어(최대 500), /api/quakes(hours, min_mag 필터 + 통계)와 /healthz. Dockerfile과 infra(CDK: CloudFront + prefix list SG + X-Origin-Verify + ALB + Fargate + Secrets)까지 골격 생성. uvicorn 실행과 curl 검증 방법 포함.</code></pre>
+    <pre><code>/superpowers:execute-plan Phase 1만 구현하고 멈춰줘. 시작 전에 4개 피드 URL을 각 사 공식 RSS 허브에서 확인해 config.py에 확인일 주석과 함께 기록. backend venv + requirements(fastapi, uvicorn, httpx, feedparser, apscheduler), 소스별 격리 수집기(120초), link 멱등 스토어(소스별 50건), /api/articles(목록 + 소스 상태)와 /healthz, Dockerfile과 infra 골격까지. uvicorn과 curl 검증 방법 포함.</code></pre>
   </div>
   <div class="code-wrap">
     <div class="code-head"><span class="code-label">Terminal, 스모크</span><button class="copy-btn" type="button">복사</button></div>
     <pre><code>cd backend &amp;&amp; .venv/bin/uvicorn app.main:app --port 8000 &amp;
-sleep 5
-curl -s "localhost:8000/api/quakes?hours=24&amp;min_mag=2.5" | python3 -c "import sys,json; d=json.load(sys.stdin); print('건수:', d['stats']['count'], '| 최대:', d['stats']['max_mag'])"</code></pre>
+sleep 8
+curl -s localhost:8000/api/articles | head -c 500; echo</code></pre>
   </div>
   <div class="callout tip">
-    <span class="co-title">개념 짚기 (Level 200), 창(window) 피드와 멱등 upsert</span>
-    이 피드는 "최근 24시간"이라는 <strong>창</strong>입니다. 매 폴링마다 대부분의 이벤트가 다시 오고,
-    이미 본 지진의 규모가 수정되어 오기도 합니다(USGS는 검토 후 값을 갱신합니다). 그래서 삽입이 아니라
-    <strong>id 기반 upsert</strong>여야 합니다 - 새 id는 추가, 아는 id는 갱신. 이 한 줄의 규율이
-    "신규 진입"이라는 정보를 만들고, 중복 펄스를 막습니다.
+    <span class="co-title">개념 짚기 (Level 200), 정규화가 비교를 만든다</span>
+    BBC와 연합뉴스의 RSS는 필드도, 날짜 형식도, 인코딩 습관도 다릅니다. 4개 피드를
+    <strong>{source, title, link, published, summary} 한 가지 모양</strong>으로 다듬는 순간에야
+    "나란히 놓기"가 가능해지고, 렌즈 프롬프트도 단순해집니다. 통합의 8할은 정규화입니다 -
+    그리고 summary의 HTML 태그 제거와 절단은 프롬프트 토큰 예산을 지키는 실무 규율입니다.
   </div>
   <div class="checkpoint">
     <div class="cp-title">DEFINITION OF DONE</div>
-    <label class="cp-item"><input type="checkbox" data-cp="m2a"><span>quakes API가 실데이터 건수와 최대 규모를 반환합니다</span></label>
-    <label class="cp-item"><input type="checkbox" data-cp="m2b"><span>두 번째 폴링 후에도 스토어 건수가 중복 없이 유지됩니다</span></label>
+    <label class="cp-item"><input type="checkbox" data-cp="m2a"><span>4개 소스 전부에서 기사가 정규화되어 조회됩니다</span></label>
+    <label class="cp-item"><input type="checkbox" data-cp="m2b"><span>피드 URL 하나를 일부러 틀려도 나머지 3개는 계속 수집됩니다</span></label>
   </div>
 </section>
 
 <section class="task" id="m3">
-  <div class="task-head"><span class="task-num">MISSION 03</span><h2>Phase 2, 세계지도</h2><span class="time-badge">40분</span></div>
-  <p class="task-goal"><strong>변환 두 줄로 진앙이 제자리에</strong> 찍히고, 규모 슬라이더와 테이블까지 살아나면 워치가 완성됩니다.</p>
-  <p class="body" style="color:#A6ABBE">이 미션의 바탕 학습: <a href="ClaudeCode_Ch2_HandsOnLab.html" style="color:#c9a2ff">Ch2</a>의 병렬 감각. 지도를 그리는 동안 테이블과 필터를 서브에이전트로 병행할 수 있습니다.</p>
+  <div class="task-head"><span class="task-num">MISSION 03</span><h2>Phase 2, 뉴스룸 그리드</h2><span class="time-badge">30분</span></div>
+  <p class="task-goal">4열 그리드에 <strong>세계의 지금이 나란히</strong> 뜨면, 비교의 무대가 완성됩니다.</p>
+  <p class="body" style="color:#A6ABBE">이 미션의 바탕 학습: <a href="ClaudeCode_Ch2_HandsOnLab.html" style="color:#c9a2ff">Ch2</a>의 병렬 감각. 그리드를 만드는 동안 소스 상태 바를 서브에이전트로 병행할 수 있습니다.</p>
   <div class="code-wrap prompt">
     <div class="code-head"><span class="code-label">Claude 세션 입력</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>/superpowers:execute-plan Phase 2를 구현해줘. frontend/index.html 정적 SPA 한 장: 요구 5의 화면 스펙(듀얼 테마, 통계 바, 등장방형 세계지도 SVG - 간이 대륙 윤곽 + 진앙 원(반지름=규모, 색=깊이) + 최근 1시간 펄스, KST 이벤트 테이블, 규모 슬라이더와 시간 창 토글). FastAPI 정적 서빙 mount까지. 외부 지도/차트 라이브러리 금지.</code></pre>
+    <pre><code>/superpowers:execute-plan Phase 2를 구현해줘. frontend/index.html 정적 SPA 한 장: 요구 7의 기본 뷰(듀얼 테마, 소스 상태 바, 4열 카드 그리드 - 매체명 헤더, 헤드라인, 상대 시각, 원문 새 탭 링크). 모바일에서는 2열로 접히게. FastAPI 정적 서빙 mount까지.</code></pre>
   </div>
   <div class="code-wrap">
     <div class="code-head"><span class="code-label">Terminal, 미리보기</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code># 브라우저에서 /proxy/8000/ 열기, 슬라이더를 움직이면 지도와 테이블이 함께 걸러진다</code></pre>
-  </div>
-  <div class="callout tip">
-    <span class="co-title">개념 짚기 (Level 200), 투영은 함수다</span>
-    지도 라이브러리가 하는 일의 본질은 <strong>(경도, 위도) → (x, y) 함수</strong> 하나입니다. 등장방형이면
-    x = (lon+180)/360 × W, y = (90-lat)/180 × H, 끝. 고위도가 넓어 보이는 왜곡이 있지만 이벤트 점 찍기에는
-    충분합니다. 이 감각이 있으면 어떤 지리 데이터든 SVG 한 장에 올릴 수 있고, 정밀 지도가 필요해지는
-    순간이 곧 라이브러리를 들일 순간입니다.
+    <pre><code># 브라우저에서 /proxy/8000/ 열기, 4개 매체의 지금이 나란히 선다</code></pre>
   </div>
   <div class="callout warn">
     <span class="co-title">이 미션의 3대 함정</span>
-    ① 점이 전부 왼쪽 위에 몰린다 = coordinates 순서를 [위도, 경도]로 읽은 것, GeoJSON은 <strong>[경도, 위도, 깊이]</strong>입니다.
-    ② 시간이 이상하다 = time은 <strong>UTC 밀리초</strong>, KST 변환(+9h)과 /1000을 확인하세요.
-    ③ 지진이 안 보인다 = 버그가 아닐 수 있습니다, 조용한 날엔 조용합니다. min_mag를 2.5로 내려 확인하세요.
+    ① 한글이 깨진다 = 응답 인코딩을 feedparser에 맡기고, 화면은 UTF-8 meta를 확인하세요.
+    ② 요약에 태그 조각이 보인다 = summary가 HTML입니다, 정규화에서 태그 제거가 빠진 것.
+    ③ 시각이 뒤죽박죽 = published 포맷이 소스마다 다릅니다, 정규화에서 UTC ISO로 통일했는지 확인하세요.
   </div>
   <div class="checkpoint">
     <div class="cp-title">DEFINITION OF DONE</div>
-    <label class="cp-item"><input type="checkbox" data-cp="m3a"><span>지도에 진앙 원이 위치, 규모, 깊이를 반영해 찍힙니다</span></label>
-    <label class="cp-item"><input type="checkbox" data-cp="m3b"><span>규모 슬라이더와 시간 창이 지도, 테이블, 통계에 함께 반영됩니다</span></label>
+    <label class="cp-item"><input type="checkbox" data-cp="m3a"><span>4열 그리드에 매체별 헤드라인과 상대 시각이 표시됩니다</span></label>
+    <label class="cp-item"><input type="checkbox" data-cp="m3b"><span>모든 카드가 원문으로 연결되고 소스 상태 바가 살아 있습니다</span></label>
   </div>
 </section>
 
 <section class="task" id="m4">
-  <div class="task-head"><span class="task-num">MISSION 04</span><h2>Phase 3 + 4, 브리핑과 개장</h2><span class="time-badge">30분</span></div>
-  <p class="task-goal">숫자가 <strong>읽고 싶은 해설</strong>이 되고, 내 CloudFront URL이 열리면 미션 완료입니다.</p>
+  <div class="task-head"><span class="task-num">MISSION 04</span><h2>Phase 3 + 4, 렌즈와 개장</h2><span class="time-badge">40분</span></div>
+  <p class="task-goal"><strong>LLM의 JSON이 그대로 화면이 되고</strong>, 내 CloudFront URL이 열리면 미션 완료입니다.</p>
   <p class="body" style="color:#A6ABBE">이 미션의 바탕 학습: <a href="ClaudeCode_Ch3_HandsOnLab.html" style="color:#c9a2ff">Ch3</a>에서 본 Bedrock 자격과 Secrets 주입의 배경, 그 위에서 도는 REST 계약.</p>
   <div class="code-wrap prompt">
-    <div class="code-head"><span class="code-label">Claude 세션 입력, 브리핑</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>/superpowers:execute-plan Phase 3(브리핑)을 구현해줘. llm 모듈: httpx POST converse(Bearer, maxTokens 700, 타임아웃 504/파싱 502 매핑), POST /api/brief - 입력은 24h 통계와 상위 이벤트, 출력은 요구 6의 한국어 브리핑, 10분 버킷 캐시. 화면 브리핑 카드와 버튼까지.</code></pre>
+    <div class="code-head"><span class="code-label">Claude 세션 입력, 렌즈</span><button class="copy-btn" type="button">복사</button></div>
+    <pre><code>/superpowers:execute-plan Phase 3(렌즈)을 구현해줘. llm 모듈: httpx POST converse(Bearer, maxTokens 1500, 타임아웃 504/파싱 502), 시스템 프롬프트에 요구 6의 JSON 스키마와 "JSON 외 출력 금지, 코드펜스 금지"를 명시, 응답은 json.loads 전에 백틱/여백 방어적 제거. POST /api/lens(10분 버킷 캐시). 화면 렌즈 뷰: 토픽 카드에 공통 요약 + 4개 프레임 나란히, 미보도 회색, sources 인덱스로 근거 기사 링크 칩, 뷰 전환 토글.</code></pre>
+  </div>
+  <div class="code-wrap">
+    <div class="code-head"><span class="code-label">Terminal, 렌즈 스모크</span><button class="copy-btn" type="button">복사</button></div>
+    <pre><code>curl -s -X POST localhost:8000/api/lens | head -c 400; echo</code></pre>
   </div>
   <div class="code-wrap prompt">
     <div class="code-head"><span class="code-label">Claude 세션 입력, 개장</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>/superpowers:execute-plan Phase 4(개장)를 진행해줘. 선배포한 인프라에 앱 이미지를 빌드/푸시하고 서비스 갱신, CloudFront 도메인 출력. X-Origin-Verify와 Secrets 주입이 살아 있는지 확인 절차 포함.</code></pre>
-  </div>
-  <div class="code-wrap">
-    <div class="code-head"><span class="code-label">Terminal, 개장 확인</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>DOMAIN=$(aws cloudformation describe-stacks --stack-name QuakeWatch --query "Stacks[0].Outputs[?OutputKey=='CloudFrontDomain'].OutputValue" --output text)
-curl -s "https://$DOMAIN/healthz" &amp;&amp; echo " &lt;- 열렸습니다, 이 URL을 Slack에"</code></pre>
+    <pre><code>/superpowers:execute-plan Phase 4(개장)를 진행해줘. 선배포한 인프라에 앱 이미지를 빌드/푸시하고 서비스 갱신, CloudFront 도메인 출력. X-Origin-Verify와 Secrets 주입 확인 절차 포함.</code></pre>
   </div>
   <div class="callout tip">
-    <span class="co-title">개념 짚기 (Level 200), 숫자를 서사로</span>
-    "24시간 동안 M2.5+ 지진 143건, 최대 5.8" - 정확하지만 아무도 안 읽습니다. 브리핑 프롬프트의 요령은
-    <strong>역할(지구과학 해설가), 재료(통계 + 상위 이벤트), 형식(문단 구성), 금지(과장, 예측)</strong>를
-    명시하는 것입니다. 특히 지진은 <strong>공포를 팔지 않는 절제</strong>가 품질입니다 - "불안 조성 금지,
-    사실 기반"을 프롬프트에 못 박으세요. 같은 데이터라도 프롬프트 계약이 결과물의 품격을 정합니다.
+    <span class="co-title">개념 짚기 (Level 200), 관점을 묻는 프롬프트</span>
+    "요약해줘"는 아무 모델이나 합니다. 이 캡스톤의 프롬프트는 세 가지가 다릅니다:
+    ① <strong>비교 지시</strong> - "각 매체가 무엇을 앞세우고 무엇을 생략하는지"를 명시적으로 묻고,
+    ② <strong>침묵의 처리</strong> - 다루지 않은 매체를 "미보도"로 표기하게 해 부재 자체를 정보로 만들며,
+    ③ <strong>JSON 계약</strong> - 출력이 화면 데이터이므로 스키마 밖 산문을 금지합니다.
+    그리고 근거 인덱스(sources)를 요구하는 순간, 렌즈는 주장이 아니라 <strong>링크로 검증 가능한 화면</strong>이 됩니다.
   </div>
   <div class="callout warn">
-    <span class="co-title">개장이 막힐 때</span>
-    ① ALB 직접 접근이 403 = 정상입니다, X-Origin-Verify 이중 방어가 일하는 중(CloudFront로만 오세요).
-    ② 502 = 컨테이너 헬스체크 경로(/healthz)와 포트 매핑을 확인. ③ 브리핑만 실패 = Secrets의 Bearer가
-    태스크에 주입되는지 (aws ecs describe-task-definition에서 secrets 블록) 확인하세요.
+    <span class="co-title">렌즈나 개장이 막힐 때</span>
+    ① JSON 파싱 실패 = 응답 앞뒤의 코드펜스가 남은 것, 방어적 제거를 확인하세요.
+    ② 클러스터가 1개뿐 = 정상일 수 있습니다, 조용한 뉴스 시간대엔 공통 토픽이 적습니다.
+    ③ ALB 직접 접근 403 = 정상(이중 방어), ④ 브리핑만 실패 = 태스크 정의의 secrets 블록에서 Bearer 주입 확인.
   </div>
   <div class="checkpoint">
     <div class="cp-title">DEFINITION OF DONE</div>
-    <label class="cp-item"><input type="checkbox" data-cp="m4a"><span>브리핑이 절제된 한국어 해설로 도착합니다 (Bearer 인증, 10분 캐시)</span></label>
+    <label class="cp-item"><input type="checkbox" data-cp="m4a"><span>렌즈 뷰에 토픽별 4매체 프레임 비교가 근거 링크와 함께 뜹니다</span></label>
     <label class="cp-item"><input type="checkbox" data-cp="m4b"><span>내 CloudFront URL을 Slack에 공유했습니다</span></label>
   </div>
 </section>
 
 <section class="task" id="gq">
-  <div class="task-head"><span class="task-num">BONUS</span><h2>워치 퀄리티 강화 라운드, 감각을 올려라</h2><span class="time-badge">+α 자유</span></div>
+  <div class="task-head"><span class="task-num">BONUS</span><h2>렌즈 퀄리티 강화 라운드, 시선을 벼려라</h2><span class="time-badge">+α 자유</span></div>
   <p class="task-goal">
-    워치가 열렸다면 이제 <strong>워치를 내 것으로 만드는 시간</strong>입니다. 강화 카드 중 끌리는 것을 골라
+    렌즈가 열렸다면 이제 <strong>렌즈를 내 것으로 만드는 시간</strong>입니다. 강화 카드 중 끌리는 것을 골라
     하나씩 주문하세요. 요령은 같습니다: 한 번에 하나, 화면으로 확인하고, 마음에 들면 커밋과 재배포.
   </p>
 
-  <div class="step-title"><span class="step-no">A</span>강화 카드 1, 지역 프리셋</div>
+  <div class="step-title"><span class="step-no">A</span>강화 카드 1, 다섯 번째 시선</div>
   <div class="code-wrap prompt">
     <div class="code-head"><span class="code-label">Claude 세션 입력</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>지역 프리셋을 추가하자. 헤더에 전체 / 환태평양 / 일본 주변 / 한반도 주변 버튼:
-각 프리셋은 경위도 바운딩 박스로 필터하고, 지도는 그 영역을 확대(viewBox 전환)한다.
-프리셋 선택은 통계 바와 테이블에도 함께 반영, localStorage에 기억.</code></pre>
+    <pre><code>Al Jazeera English를 다섯 번째 소스로 추가하자. config에 피드를 등록하면
+수집기, 스토어, 그리드(5열), 렌즈 프롬프트와 frames 스키마까지 자동으로 확장되는지가
+이 카드의 진짜 시험이다. 하드코딩이 남아 있으면 이 기회에 소스 목록 주도로 리팩터.</code></pre>
   </div>
 
-  <div class="step-title"><span class="step-no">B</span>강화 카드 2, 판 경계 오버레이</div>
+  <p class="body"><strong>추가 소스 후보 메뉴판</strong> (한국 / 미국, 2026.08 기준 - NPR와 NYT는 웹 확인, 나머지는 등록 시 각 사 허브에서 피드 URL을 확인해 config에 확인일을 남기세요)</p>
+  <table class="tbl">
+    <tr><th>국가</th><th>매체</th><th>피드 허브</th><th>비고</th></tr>
+    <tr><td>한국</td><td>KBS 뉴스</td><td>news.kbs.co.kr RSS</td><td>공영 기준선, 안정</td></tr>
+    <tr><td>한국</td><td>한겨레</td><td>hani.co.kr RSS</td><td>공식 제공 오래 유지</td></tr>
+    <tr><td>한국</td><td>경향신문</td><td>khan.co.kr RSS</td><td>섹션별 제공</td></tr>
+    <tr><td>한국</td><td>조선일보</td><td>chosun.com RSS</td><td>섹션별 제공</td></tr>
+    <tr><td>한국</td><td>SBS 뉴스</td><td>news.sbs.co.kr RSS</td><td>방송사 중 충실</td></tr>
+    <tr><td>한국</td><td>매일경제 / 한국경제</td><td>mk.co.kr, hankyung.com RSS</td><td>경제 섹션 렌즈용</td></tr>
+    <tr><td>미국</td><td>NPR</td><td>feeds.npr.org</td><td>미국 매체 중 RSS 지원 최상급</td></tr>
+    <tr><td>미국</td><td>NYT</td><td>rss.nytimes.com</td><td>헤드라인 + 요약 무료, 렌즈는 본문 미저장이라 충분</td></tr>
+    <tr><td>미국</td><td>Fox News</td><td>feeds.foxnews.com</td><td>공식 제공</td></tr>
+    <tr><td>미국</td><td>Washington Post</td><td>feeds.washingtonpost.com</td><td>제공, 개편 잦은 편</td></tr>
+  </table>
+  <p class="body">참고: AP는 공식 RSS 미제공, CNN 피드는 레거시라 후순위입니다. 렌즈는 프레이밍 비교가 심장이므로
+  <strong>관점의 거리가 있는 짝</strong>(예: NPR + Fox, 국내라면 KBS + 한겨레 + 조선)일수록 화면이 살아납니다.</p>
+
+  <div class="step-title"><span class="step-no">B</span>강화 카드 2, 키워드 추적</div>
   <div class="code-wrap prompt">
     <div class="code-head"><span class="code-label">Claude 세션 입력</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>지각판 경계를 지도에 겹치자. 판 경계의 간이 폴리라인 데이터를 plates.js에 상수로 내장하고
-(정밀할 필요 없음, 주요 경계 윤곽이면 충분) 얇은 점선 레이어로 그린다.
-토글 버튼으로 켜고 끄기. 진앙이 경계를 따라 늘어서는 그림이 이 카드의 보상이다.</code></pre>
+    <pre><code>관심 키워드 추적을 추가하자. 헤더의 입력창에 키워드(예: AI, 반도체)를 핀하면
+그리드에서 매칭 헤드라인이 하이라이트되고, "이 키워드만" 필터 토글이 생긴다.
+핀 목록은 localStorage에, 매칭은 대소문자 무시.</code></pre>
   </div>
 
-  <div class="step-title"><span class="step-no">C</span>강화 카드 3, 신규 이벤트 라이브 배지</div>
+  <div class="step-title"><span class="step-no">C</span>강화 카드 3, 어조 온도계</div>
   <div class="code-wrap prompt">
     <div class="code-head"><span class="code-label">Claude 세션 입력</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>새로고침 사이의 변화를 보여주자. /api/quakes 응답에 신규 진입 id 목록(new_ids)을 포함하고,
-화면은 직전 응답과 비교해 새 이벤트에 NEW 배지와 3초 하이라이트를 준다.
-헤더에 "이번 사이클 신규 N건" 카운터. 지구가 방금 움직였다는 감각을 화면에.</code></pre>
+    <pre><code>렌즈 응답에 어조 온도를 더하자. 각 프레임에 tone 필드(-2 차분 ~ +2 격앙)를 JSON 계약에 추가하고,
+화면은 프레임 옆에 작은 온도 바로 표시. 같은 사건에 대한 온도 차가 한눈에 보이면
+프레이밍이라는 개념이 몸에 들어온다. 프롬프트에 "근거 문구 없이 극단값 금지"를 명시.</code></pre>
   </div>
 
-  <div class="step-title"><span class="step-no">D</span>강화 카드 4, 깊이 단면 뷰</div>
+  <div class="step-title"><span class="step-no">D</span>강화 카드 4, 아침 렌즈 배달</div>
   <div class="code-wrap prompt">
     <div class="code-head"><span class="code-label">Claude 세션 입력</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>깊이 단면을 추가하자. 지도 아래에 가로축 = 경도, 세로축 = 깊이(0~700km 로그 스케일)인
-산점 SVG를 하나 더: 같은 데이터를 다른 축으로 보면 섭입대의 경사가 드러난다.
-지도의 필터와 완전히 연동, 점 호버 시 규모와 지역 툴팁.</code></pre>
+    <pre><code>렌즈를 텍스트로 내보내자. "복사용 브리핑" 버튼 → overview와 클러스터를
+Slack에 붙여넣기 좋은 플레인 텍스트(토픽별 3줄 + 링크)로 만들어 클립보드에 복사.
+매일 아침 팀 채널에 배달하는 내 미디어 브리핑의 원형이다.</code></pre>
   </div>
 
-  <div class="step-title"><span class="step-no">E</span>강화 카드 5, 나만의 워치로</div>
-  <p class="body">여기부터는 정해진 카드가 없습니다. <strong>당신이 관측소장입니다</strong>. 지도를 보며 궁금했던 것
-  하나를 골라, 위 카드들처럼 직접 요구사항을 써서 주문하세요. 아이디어가 필요하면: 시간대별 히스토그램,
-  규모-빈도 분포(구텐베르크-리히터), 최근 7일 창 전환(2.5_week.geojson), 진앙 클릭 → USGS 상세 링크, 소리 알림, DynamoDB로 스토어 승격(TTL 24시간이면 "창" 개념이 테이블 차원에서 재현되고, 재배포와 다중 태스크에도 상태가 유지됩니다).</p>
+  <div class="step-title"><span class="step-no">E</span>강화 카드 5, 나만의 렌즈로</div>
+  <p class="body">여기부터는 정해진 카드가 없습니다. <strong>당신이 편집장입니다</strong>. 뉴스룸을 보며 궁금했던 것
+  하나를 골라, 위 카드들처럼 직접 요구사항을 써서 주문하세요. 아이디어가 필요하면: 테크 섹션 전용 렌즈,
+  시간대별 헤드라인 변화, 매체별 다룬 지역 지도, 토픽 히스토리(오전 vs 오후), 읽음 표시, DynamoDB로 스토어 승격(재배포와 다중 태스크에도 기사 이력이 유지되고, 토픽 히스토리 카드의 토대가 됩니다).</p>
   <div class="code-wrap prompt">
     <div class="code-head"><span class="code-label">Claude 세션 입력, 빈칸을 내 아이디어로</span><button class="copy-btn" type="button">복사</button></div>
-    <pre><code>내 워치에 [내가 원하는 기능]을 추가하자. 규칙:
-1) 데이터: [필요한 필드와 출처, 피드가 달라지면 URL 명시]
+    <pre><code>내 렌즈에 [내가 원하는 기능]을 추가하자. 규칙:
+1) 데이터: [필요한 필드, 새 소스라면 공식 RSS 확인]
 2) 화면: [어디에 어떻게 보이는지]
-3) 계약: 화면은 우리 API만 본다, 멱등 스토어 원칙은 깨지 않는다
+3) 계약: 본문 미저장과 원문 링크 필수 원칙, JSON 스키마 호환은 깨지 않는다
 4) 배포: 완성되면 재배포까지
 구현 전에 이 규칙을 네 계획으로 다시 말해주고, 승인하면 진행해.</code></pre>
   </div>
@@ -1022,12 +1056,12 @@ curl -s "https://$DOMAIN/healthz" &amp;&amp; echo " &lt;- 열렸습니다, 이 U
 
 <section class="wrapup" id="wrapup">
   <h2>미션 종료</h2>
-  <p class="sub">피드는 창으로, 저장은 멱등하게, 좌표는 함수로, 숫자는 서사로. 그리고 개장은 CloudFront로.</p>
+  <p class="sub">소스는 정규화로 나란히, 출력은 JSON 계약으로, 침묵은 미보도로. 요약을 넘어 관점을 읽었습니다.</p>
   <table class="tbl">
     <tr><th>가져가는 것</th><th>내용</th></tr>
-    <tr><td>창 피드의 멱등 upsert</td><td>재등장과 값 갱신이 기본인 상류에서 id 규율이 데이터를 지킨다</td></tr>
-    <tr><td>투영의 최소 수학</td><td>지도 = (lon, lat) → (x, y) 함수, 두 줄이면 세계가 SVG에 실린다</td></tr>
-    <tr><td>절제된 브리핑</td><td>재료, 형식, 금지를 계약한 프롬프트가 품격 있는 해설을 만든다</td></tr>
+    <tr><td>정규화의 힘</td><td>이질적 소스 통합의 8할은 한 가지 모양으로 다듬는 일이다</td></tr>
+    <tr><td>LLM JSON 계약</td><td>화면용 출력은 스키마로 계약한다, 파싱 가능성이 곧 신뢰성</td></tr>
+    <tr><td>프레이밍 프롬프트</td><td>비교 지시, 침묵의 처리, 근거 링크 - LLM 고유 화면의 설계 문법</td></tr>
   </table>
   <div class="next-box">
     <div>
@@ -1041,7 +1075,7 @@ curl -s "https://$DOMAIN/healthz" &amp;&amp; echo " &lt;- 열렸습니다, 이 U
 </main>
 </div>
 <footer>
-  <div class="who">Claude Code Deep Dive Workshop, Capstone 5</div>
+  <div class="who">Claude Code Deep Dive Workshop, Capstone 6</div>
   <div>기준: Claude Code 2.1.x + FastAPI + Bedrock REST, Sonnet 4.6, 2026.08</div>
 </footer>
 

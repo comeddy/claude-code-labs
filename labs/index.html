@@ -181,14 +181,14 @@ html.light code.inline { background: #E8EDF3; color: #9A4E00; }
 <header class="hero">
   <span class="eyebrow">CLAUDE CODE DEEP DIVE WORKSHOP / HANDS-ON LAB PORTAL</span>
   <h1>Claude Code Deep Dive Workshop</h1>
-  <div class="subtitle">Hands-on Lab 포털 - Chapter 1~5 정규 랩 + Capstone Mission 5종</div>
+  <div class="subtitle">Hands-on Lab 포털 - Chapter 1~5 정규 랩 + Capstone Mission 7종</div>
   <p class="lede">
     이틀 동안 Claude Code를 설치부터 자동화 부품, 그리고 하나의 서비스 팀원으로 승격시키는 실습 과정입니다.
     모든 랩은 독립 HTML 문서로, 아래에서 열어 진행 상황을 체크하며 따라갑니다.
-    캡스톤은 네 가지 미션 중 <strong>하나를 선택</strong>해 완주하며, 별도 인프라 없이 혼자서도 처음부터 끝까지 수행할 수 있습니다.
+    캡스톤은 라운드마다 미션 <strong>하나를 선택</strong>해 완주하며, 별도 인프라 없이 혼자서도 처음부터 끝까지 수행할 수 있습니다.
   </p>
   <div class="hero-meta">
-    <span>구성 <strong>준비 2 + Chapter 랩 6 + Capstone 5 + Reference 3</strong></span>
+    <span>구성 <strong>준비 2 + Chapter 랩 6 + Capstone 7 + Reference 3</strong></span>
     <span>환경 <strong>Claude Code on EC2 + Admin 계정</strong></span>
     <span>리전 <strong>ap-northeast-2</strong></span>
     <span>모델 <strong>Opus 4.8, Sonnet 5.0, Sonnet 4.6 (Global CRIS)</strong></span>
@@ -203,12 +203,12 @@ html.light code.inline { background: #E8EDF3; color: #9A4E00; }
     <span class="chip">Ch1 설치와 Headless</span><span class="arrow">→</span>
     <span class="chip">Ch2 Subagents</span><span class="arrow">→</span>
     <span class="chip">Ch3 Admin 브리핑</span><span class="arrow">→</span>
-    <span class="chip">Capstone R1, 게임/미술관</span>
+    <span class="chip">Capstone R1, 게임/미술관/지진 워치</span>
     <span class="day" style="margin-left:14px">DAY 2</span>
     <span class="chip">Ch4 Settings 슈퍼랩</span><span class="arrow">→</span>
     <span class="chip">Ch5 CLI 핵심</span><span class="arrow">→</span>
     <span class="chip">Anthropic 특별 세션</span><span class="arrow">→</span>
-    <span class="chip">Capstone R2, 증시/유튜브</span><span class="arrow">→</span>
+    <span class="chip">Capstone R2, 증시/유튜브/뉴스룸 렌즈</span><span class="arrow">→</span>
     <span class="chip">모델 라우팅과 메터링</span>
   </div>
 </nav>
@@ -290,10 +290,10 @@ html.light code.inline { background: #E8EDF3; color: #9A4E00; }
 <section class="wrap" id="capstones">
   <div class="sec-title"><h2>Capstone Missions</h2><span class="tag">이틀 2라운드 / Day 1 택 1 + Day 2 택 1</span></div>
   <p class="sec-desc">
-    이틀 동안 두 번 완결합니다. Day 1 라운드 1은 Bedrock 없이 완주하는 <b>게임</b>과 <b>미술관</b> 중 택 1,
-    Day 2 라운드 2는 Bedrock 분석이 살아 있는 <b>증시</b>와 <b>유튜브</b> 중 택 1입니다.
+    이틀 동안 두 번 완결합니다. Day 1 라운드 1은 <b>게임</b>, <b>미술관</b>(Bedrock 미사용) 또는 2시간 트랙 <b>지진 워치</b>(CloudFront 실배포) 중 택 1,
+    Day 2 라운드 2는 Bedrock 분석이 살아 있는 <b>증시</b>, <b>유튜브</b> 또는 2시간 트랙 <b>뉴스룸 렌즈</b>(키 발급 없음, CloudFront 실배포까지) 중 택 1입니다.
     난이도가 아니라 정체성이 다르니 관심사에 맞춰 고르세요. 전부 superpowers의 brainstorm → plan → execute 워크플로로 진행합니다.
-    다섯 번째 미션 Playbook Foundry는 자율 라운드입니다. 라운드가 일찍 끝났거나 복습할 때 진행하세요.
+    일곱 번째 미션 Playbook Foundry는 자율 라운드입니다. 라운드가 일찍 끝났거나 복습할 때 진행하세요.
     완주하면 어떤 화면이 나오는지 궁금하면 <a href="https://capstone.atomai.click/" style="color:var(--orange)">Capstone Showcase</a>에서
     완성 예시 일곱 점을 미리 둘러볼 수 있습니다.
   </p>
@@ -352,6 +352,26 @@ html.light code.inline { background: #E8EDF3; color: #9A4E00; }
 
     <a class="card" href="ClaudeCode_Capstone5_HandsOnLab.html">
       <span class="mnum">MISSION 5</span>
+      <span class="identity">Quake Watch</span>
+      <h3>지구의 맥박, 실시간 지진 워치</h3>
+      <p class="desc"><b>Day 1, 라운드 1 (2시간 트랙).</b> USGS 실시간 피드를 멱등 수집해 세계지도 SVG에 진앙 펄스로 띄우고,
+      Bedrock이 "지난 24시간, 지구는"을 절제된 한국어로 해설합니다. 키 발급 없음, CloudFront 실배포로 개장.</p>
+      <p class="finale">피날레: <b>누구나 열리는 내 지진 워치 URL을 Slack에</b></p>
+      <span class="foot"><span>120분 / 미션 5 + DoD</span><span class="go">시작 →</span></span>
+    </a>
+
+    <a class="card" href="ClaudeCode_Capstone6_HandsOnLab.html">
+      <span class="mnum">MISSION 6</span>
+      <span class="identity">Newsroom Lens</span>
+      <h3>뉴스룸 렌즈, 4개 매체 관점 비교</h3>
+      <p class="desc"><b>Day 2, 라운드 2 (2시간 트랙).</b> BBC, Guardian, NHK, 연합뉴스 RSS를 수집해 공통 토픽을 묶고,
+      매체별 프레임을 한국어로 나란히 비교합니다. LLM 출력을 JSON 계약으로 화면에 - 요약을 넘어 관점을 읽는 도구.</p>
+      <p class="finale">피날레: <b>내 미디어 렌즈 URL을 Slack에</b></p>
+      <span class="foot"><span>120분 / 미션 5 + DoD</span><span class="go">시작 →</span></span>
+    </a>
+
+    <a class="card" href="ClaudeCode_Capstone7_HandsOnLab.html">
+      <span class="mnum">MISSION 7</span>
       <span class="identity">Playbook Foundry</span>
       <h3>내 기술분야 플레이북, 파운드리</h3>
       <p class="desc"><b>자율 라운드.</b> 가장 자주 질문받는 기술분야를 골라 검증 우선(THE FILTER) 플레이북 사이트를 짓습니다.
