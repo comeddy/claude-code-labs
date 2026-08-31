@@ -1,4 +1,4 @@
-"""Capstone 5, Playbook Foundry 생성기. HoL-Style-01 규격."""
+"""Capstone 7, Playbook Foundry 생성기. HoL-Style-01 규격."""
 import pathlib
 import sys
 
@@ -10,7 +10,7 @@ from helpers import esc, code, sol, heredoc  # noqa: E402
 A = BASE / 'assets'
 asset = lambda name: (A / name).read_text()
 
-TITLE = 'Capstone 5, Playbook Foundry - Claude Code Deep Dive Workshop'
+TITLE = 'Capstone 7, Playbook Foundry - Claude Code Deep Dive Workshop'
 head = SKILL.joinpath('lab_head.html').read_text().replace(
     '<title>Capstone Hands-on Lab - Claude Code Deep Dive Workshop</title>',
     f'<title>{TITLE}</title>')
@@ -18,7 +18,7 @@ if TITLE not in head:
     raise SystemExit('title swap failed')
 
 tail = SKILL.joinpath('lab_tail.html').read_text()
-tail = tail.replace('{{LAB_TITLE}}', 'Claude Code Deep Dive Workshop, Capstone 5')
+tail = tail.replace('{{LAB_TITLE}}', 'Claude Code Deep Dive Workshop, Capstone 7')
 tail = tail.replace('{{BASELINE}}', 'Claude Code 2.1.x + MkDocs Material 9.x + Python 3.9+, 원작 pai-playbook, 2026.08')
 tail = tail.replace('{{TASK_GROUPS}}', '{ m0:["m0"], m1:["m1"], m2:["m2a","m2b"], m3:["m3a","m3b"], m4:["m4"], m5:["m5"] }')
 tail = tail.replace('{{TASK_COUNT}}', '6')
@@ -30,7 +30,7 @@ w = body.append
 w('''<body>
 
 <header class="hero">
-  <span class="eyebrow">CAPSTONE 5 / PLAYBOOK FOUNDRY / 135 MIN</span>
+  <span class="eyebrow">CAPSTONE 7 / PLAYBOOK FOUNDRY / 135 MIN</span>
   <h1>내 기술분야 플레이북, 파운드리</h1>
   <div class="subtitle">신호 필터 → 페이지 생성 → 신선도 게이트 → 출고, 스스로 안 낡는 지식 자산</div>
   <p class="lede">
@@ -482,6 +482,6 @@ w('''<section class="wrapup" id="wrapup">
 ''')
 
 out = head + '\n' + ''.join(body) + tail
-dest = BASE / 'ClaudeCode_Capstone5_HandsOnLab.html'
+dest = BASE / 'ClaudeCode_Capstone7_HandsOnLab.html'
 dest.write_text(out)
 print(f'written: {dest} ({len(out)} bytes)')
