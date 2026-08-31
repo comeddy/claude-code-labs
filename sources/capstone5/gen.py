@@ -144,14 +144,14 @@ w('''<section class="task" id="m0">
 
   <div class="step-title"><span class="step-no">1</span>작업 디렉토리와 가상환경</div>
 ''')
-w(code('Terminal, 전체 복사', '''mkdir -p ~/capstone/capstone-5 && cd ~/capstone/capstone-5
+w(code('Terminal, 전체 복사', '''mkdir -p ~/capstone/capstone-7 && cd ~/capstone/capstone-7
 python3 -m venv .venv && source .venv/bin/activate
 pip -q install mkdocs-material pytest
 mkdocs --version'''))
-w(code('출력 예시', 'mkdocs, version 1.6.1 from .../capstone-5/.venv/... (Python 3.9)', kind='output'))
+w(code('출력 예시', 'mkdocs, version 1.6.1 from .../capstone-7/.venv/... (Python 3.9)', kind='output'))
 w('''  <div class="callout warn">
     <span class="co-title">이후 모든 터미널은 이 가상환경에서</span>
-    새 터미널을 열었다면 먼저 <code class="inline">cd ~/capstone/capstone-5 &amp;&amp; source .venv/bin/activate</code>.
+    새 터미널을 열었다면 먼저 <code class="inline">cd ~/capstone/capstone-7 &amp;&amp; source .venv/bin/activate</code>.
     <code class="inline">mkdocs: command not found</code>가 보이면 십중팔구 활성화를 빼먹은 것입니다.
   </div>
 
@@ -193,11 +193,11 @@ w('''<section class="task" id="m1">
   <div class="step-title"><span class="step-no">2</span>마스터 프롬프트 골격 배치</div>
   <p class="body">원작에서 가져온 골격입니다. <code class="inline">《...》</code> 부분만 내 도메인으로 채우면 됩니다.</p>
 ''')
-w(code('Terminal (~/capstone/capstone-5), 전체 복사',
+w(code('Terminal (~/capstone/capstone-7), 전체 복사',
        heredoc('PROMPT.md', 'PSKEOF', asset('PROMPT.md'))))
 w('''  <div class="step-title"><span class="step-no">3</span>Claude와 함께 《》 채우기</div>
 ''')
-w(code('Terminal (~/capstone/capstone-5)', 'claude'))
+w(code('Terminal (~/capstone/capstone-7)', 'claude'))
 w(code('Claude 세션 입력, 전체 복사', '''/superpowers:brainstorming PROMPT.md를 읽어라. 나와 함께 《...》 placeholder를 전부 채워
 "내 기술분야 플레이북"의 마스터 프롬프트를 완성하자.
 1) 먼저 내게 도메인과 독자를 물어라. 내 답을 그대로 쓰지 말고 더 좁고 구체적으로 다듬어 제안하라
@@ -290,7 +290,7 @@ w(code('Terminal, 전체 복사',
        heredoc('tests/test_freshness.py', 'TSTEOF', asset('test_freshness.py'),
                post='.venv/bin/python -m pytest tests/ -q')))
 w(code('출력 예시 (RED, 아직 구현이 없다)', '''ERROR tests/test_freshness.py - FileNotFoundError: [Errno 2] No such file or directory:
-'.../capstone-5/scripts/check_freshness.py'.''', kind='output'))
+'.../capstone-7/scripts/check_freshness.py'.''', kind='output'))
 w('''  <div class="step-title"><span class="step-no">2</span>Claude에게 구현을 맡기기, GREEN까지</div>
 ''')
 w(code('Claude 세션 입력, 전체 복사', '''/superpowers:test-driven-development tests/test_freshness.py를 읽어라. 이 테스트 6개를 전부
@@ -413,7 +413,7 @@ w('''<section class="task" id="opt-pages">
   <div class="task-head"><span class="task-num">OPTION</span><h2>웹 공개, GitHub Pages</h2><span class="time-badge">+15분</span></div>
   <p class="task-goal">출고 게이트를 통과한 사이트를 진짜 URL로 만듭니다. GitHub 계정과 gh CLI 인증이 있는 경우에만 진행하세요.</p>
 ''')
-w(code('Terminal, 전체 복사', '''cd ~/capstone/capstone-5
+w(code('Terminal, 전체 복사', '''cd ~/capstone/capstone-7
 printf '.venv/\\nsite/\\n' > .gitignore
 git init -b main && git add -A && git commit -m "my playbook v1"
 gh repo create my-playbook --public --source . --push
@@ -446,7 +446,7 @@ w('''<section class="task" id="appx">
   <p class="body"><strong>막히면 여기부터.</strong></p>
   <table class="tbl">
     <tr><th>증상</th><th>원인</th><th>처방</th></tr>
-    <tr><td>mkdocs: command not found</td><td>가상환경 비활성</td><td><code class="inline">cd ~/capstone/capstone-5 &amp;&amp; source .venv/bin/activate</code></td></tr>
+    <tr><td>mkdocs: command not found</td><td>가상환경 비활성</td><td><code class="inline">cd ~/capstone/capstone-7 &amp;&amp; source .venv/bin/activate</code></td></tr>
     <tr><td>strict 빌드 실패: nav 파일 없음</td><td>페이지 파일명이 규격과 다름</td><td>docs/에 p1.md~p5.md, radar.md가 정확히 있는지 확인</td></tr>
     <tr><td>pytest가 ERROR로 시작</td><td>M3 step 1 직후라면 정상(RED)</td><td>구현 후에도 그렇다면 scripts/check_freshness.py 경로와 철자 확인</td></tr>
     <tr><td>8000 포트가 이미 사용 중</td><td>이전 serve가 살아 있음</td><td><code class="inline">mkdocs serve -a 127.0.0.1:8001</code>로 우회</td></tr>
