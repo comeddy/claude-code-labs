@@ -2,3 +2,6 @@
 .remember/
 __pycache__/
 .playwright-mcp/
+
+# Local zip archive of labs/ (regenerate with: zip -r labs.zip labs)
+labs.zip
